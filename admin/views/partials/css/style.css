@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'Reservoir Grunge';
+    src: url('../../../../assets/fonts/ReservoirGrunge.woff2') format('woff2'),
+        url('../../../../assets/fonts/ReservoirGrunge.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.img-logo {
+	height: auto;
+	width: 100px;
+}
+
+.reservoir {
+	font-family: 'Reservoir Grunge';
+	padding-top: 10px;
+}
+
+.auto-height {
+	height: 100vh;
+}
+
+.sticky {
+	position: sticky;
+	top: 0;
+	z-index: 1020
+}
+
+@media (max-width: 1024px) {
+	.auto-height {
+		height: 100%;
+	}
+
+	.sticky {
+		position: static;
+	}
+}
