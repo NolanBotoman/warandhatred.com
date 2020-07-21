@@ -24,7 +24,7 @@ window.onload = () => {
 	        if (result.error) {
 
 	        	if (result.error.message.includes("You passed an empty string for")) {
-	        		result.error.message = "Vérifiez que tous les champs ont été complétés.";
+	        		result.error.message = "Vérifiez que tous les champs ont été complété.";
 	        	}
 
 	            document.getElementById("errors").innerText = result.error.message;
