@@ -39,7 +39,9 @@
 						</div>
 
 						<input class="btn btn-outline-dark" type="submit" value="Enregistrer" />
-						<button class="btn btn-dark"><a class="text-white text-decoration-none" href="index.php?controller=users&action=list">Retour</a></button>
+						<a class="text-white text-decoration-none" href="index.php?controller=users&action=list">
+							<button class="btn btn-dark" type="button">Retour</button>
+						</a>
 					</form>
 				</section>
 			</div>

@@ -18,7 +18,9 @@
 							<input class="form-control" type="text" name="name" id="name" value="<?= isset($_SESSION['old_inputs']) ? htmlspecialchars($_SESSION['old_inputs']['name']) : '' ?><?= isset($category) ? htmlspecialchars($category['name']) : '' ?>" />
 						</div>
 						<input class="btn btn-outline-dark" type="submit" value="Enregistrer" />
-						<button class="btn btn-dark"><a class="text-white text-decoration-none" href="index.php?controller=categories&action=list">Retour</a></button>
+						<a class="text-white text-decoration-none" href="index.php?controller=categories&action=list">
+							<button class="btn btn-dark" type="button">Retour</button>
+						</a>
 					</form>
 					
 				</section>

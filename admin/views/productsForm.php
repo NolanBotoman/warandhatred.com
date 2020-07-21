@@ -85,8 +85,10 @@
 							<input type="checkbox" id="is_archived" name="is_archived" <?= (isset($_SESSION['old_inputs']['is_archived']) && $_SESSION['old_inputs']['is_archived'] != null) ? 'checked' : '' ?><?= (isset($product) && $product['is_archived'] != null) ? 'checked' : '' ?> />
 							<label class="form-check-label" for="is_archived">Définir si le produit doit être archivé</label>
 						</div>
-						<input  class="btn btn-outline-dark" type="submit" value="Enregistrer" />
-						<button class="btn btn-dark"><a class="text-white text-decoration-none" href="index.php?controller=products&action=list">Retour</a></button>
+						<input class="btn btn-outline-dark" type="submit" value="Enregistrer" />
+						<a class="text-white text-decoration-none" href="index.php?controller=products&action=list">
+							<button class="btn btn-dark" type="button">Retour</button>
+						</a>
 					</form>
 				</section>
 			</div>
