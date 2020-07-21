@@ -4,7 +4,7 @@ session_start();
 
 require ('../helpers.php');
 
-if (!isset($_SESSION['user']['id']) && isset($_SESSION['user']['admin'])) {
+if (!isset($_SESSION['user']['admin'])) {
     header('Location:../index.php');
     exit;
 }
