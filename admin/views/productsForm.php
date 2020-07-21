@@ -28,22 +28,22 @@
 						<div class="form-group">
 							<label for="sizes_id">Tailles(s)</label>
 							<select class="form-control form-control-sm" name="sizes_id[]" id="sizes_id" multiple>
-								<?php $sizes_seen = array() ?>
-								<?php foreach($sizes as $size): ?>
-									<?php if(!empty($products_sizes)): ?>
+								<?php if(!empty($products_sizes)): ?>
+									<?php $sizes_seen = array() ?>
+									<?php foreach($sizes as $size): ?>
 										<?php foreach($products_sizes as $product_size): ?>
-											<?php if($product_size['size_id'] == $size['id']): ?>
+											<?php if($product_size['product_id'] == $product['id'] && $product_size['size_id'] == $size['id'] && !in_array($size['id'], $sizes_seen)): ?>
 												<option value="<?= $size['id']; ?>" <?= ($size['id'] == $product_size['size_id']) ? 'selected' : '' ?>><?= $size['size'] ?></option>
-											<?php array_push($sizes_seen, $size['id']); ?>
+												<?php array_push($sizes_seen, $size['id']); ?>
 											<?php endif; ?>
 										<?php endforeach; ?>
 										<?php if(!in_array($size['id'], $sizes_seen)): ?>
 											<option value="<?= $size['id']; ?>"><?= $size['size']; ?></option>
 										<?php endif; ?>
-									<?php else: ?>
+									<?php endforeach; ?>
+								<?php else: ?>
 									<option value="<?= $size['id']; ?>"><?= $size['size']; ?></option>
-									<?php endif; ?>
-								<?php endforeach; ?>					
+								<?php endif; ?>					
 							</select>
 						</div>
 						<div class="form-group">
@@ -54,22 +54,22 @@
 							<label for="categories_id">Catégorie(s)</label>
 							<select class="form-control form-control-sm" name="categories_id[]" id="categories_id" multiple>
 								<option value="<?= null; ?>" <?= (empty($products_categories)) ? 'selected' : '' ?>>Aucune</option>
-								<?php $categories_seen = array() ?>
-								<?php foreach($categories as $category): ?>
-									<?php if(!empty($products_categories)): ?>
+								<?php if(!empty($products_categories)): ?>
+									<?php $categories_seen = array() ?>
+									<?php foreach($categories as $category): ?>	
 										<?php foreach($products_categories as $product_category): ?>
-											<?php if($product_category['category_id'] == $category['id']): ?>
+											<?php if($product_category['product_id'] == $product['id'] && $product_category['category_id'] == $category['id'] && !in_array($category['id'], $categories_seen)): ?>
 												<option value="<?= $category['id']; ?>" <?= ($category['id'] == $product_category['category_id']) ? 'selected' : '' ?>><?= $category['name'] ?></option>
-											<?php array_push($categories_seen, $category['id']); ?>
+												<?php array_push($categories_seen, $category['id']); ?>
 											<?php endif; ?>
 										<?php endforeach; ?>
 										<?php if(!in_array($category['id'], $categories_seen)): ?>
 											<option value="<?= $category['id']; ?>"><?= $category['name']; ?></option>
 										<?php endif; ?>
-									<?php else: ?>
+									<?php endforeach; ?>
+								<?php else: ?>
 									<option value="<?= $category['id']; ?>"><?= $category['name']; ?></option>
-									<?php endif; ?>
-								<?php endforeach; ?>					
+								<?php endif; ?>			
 							</select>
 						</div>
 						<div class="form-group">
