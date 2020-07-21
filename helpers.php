@@ -24,22 +24,7 @@ function buildAlert($message)
 
 function buildLinkAlert($message, $arg)
 {
-    switch ($arg) {
-        case "account_orders":
-            return "<div class='alert'>" . $message . "<a class='underline colorize' href=
-            'index.php?page=account&show=orders'>Click here to access your previous orders</a><span class='close' onclick='this.parentElement.remove();'>&times;</span></div>";
-            break;
-
-        case "login_signin":    
-            return "<div class='alert'>" . $message . "<a class='underline colorize' href=
-            'index.php?page=login&show=signin&from=lastref'>Click here to connect</a><span class='close' onclick='this.parentElement.remove();'>&times;</span></div>";
-            break;
-
-        default:
-            return "<div class='alert'>" . $message . "<span class='close' onclick='this.parentElement.remove();'>&times;</span></div>";
-            break;
-    }
-    
+    return "<div class='alert'>" . $message . "<span class='close' onclick='this.parentElement.remove();'>&times;</span></div>"; 
 }
 
 function checkEmailHost($email)
