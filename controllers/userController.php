@@ -8,10 +8,8 @@ $links = getAttachmentLinks($_GET['page']);
 $page = $_GET['page'];
 
 if (!isset($_SESSION['user']['id'])) {
-
 	header('Location:index.php?page=login&show=sign_in');
 	exit;
-
 }
 
 switch ($_GET['show']) {
