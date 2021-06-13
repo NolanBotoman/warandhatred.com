@@ -1,24 +1,20 @@
 <!DOCTYPE html>
-<?php require 'partials/head_assets.php'; ?>
-<body class="index-body">
-	<div class="container-fluid">
-		<div class="row">
-			<?php require ('partials/navigation.php'); ?>
-			<div class="col-9 py-3">
-				<?php if(isset($_SESSION['messages'])): ?>
-					<?php foreach($_SESSION['messages'] as $message): ?>
-						<?= $message ?><br>
-					<?php endforeach; ?>
-				<?php endif; ?>
-
-				<section class="ml-2">
-					<h3>Liste complète des produits</h3>
+<html>
+<?php require 'partials/head.php'; ?>
+<body>
+	<div class="container-fluid p-0">
+		<div class="row gx-0">
+			<?php require 'partials/navigation.php'; ?>
+			<div class="col-lg-9">
+				<?php require 'partials/alert.php'; ?>
+				<div class="p-4">
+					<h3>Produits</h3>
 					<a href="index.php?controller=products&action=new">Ajouter un nouveau produit</a><br><br>
-					<ul class="list-unstyled">
-						<?php foreach($products as $product): ?>
-						<section class="pl-4 pr-5 mb-4 border-left d-inline-block">
-							<li class="pb-2"><h6><kbd>Produit n°<?=  htmlspecialchars($product['id']) ?></kbd></h6></li>
-							<li><h6>Nom de l'article <br><span class="font-italic"><?=  htmlspecialchars($product['name']) ?></span></h6></li>
+					<div class="d-grid g-wrapper-6 gap-4">
+					<?php foreach($products as $product): ?>
+						<div>
+							<p class="pb-2"><kbd>Produit n°<?=  htmlspecialchars($product['id']) ?></kbd></p>
+							<p class="h6">Nom de l'article <br><span class="fw-light"><?=  htmlspecialchars($product['name']) ?></span></p>
 							<?php
 							$sizes_sizes = array();
 
@@ -33,9 +29,7 @@
 							}
 
 							?>
-							<li>
-								<h6>Tailles(s) disponible(s) <br><span class="font-italic"><?=  htmlspecialchars(implode(", ", $sizes_sizes)) ?></span></h6>
-							</li>
+							<p class="h6">Tailles(s) disponible(s) <br><span class="fw-light"><?=  htmlspecialchars(implode(", ", $sizes_sizes)) ?></span></p>
 							<?php
 							$categories_names = array();
 
@@ -51,21 +45,15 @@
 
 							if (empty($categories_names)) array_push($categories_names, 'Aucune');
 							?>
-							<li>
-								<h6>Catégorie(s) associée(s) <br><span class="font-italic"><?=  htmlspecialchars(implode(", ", $categories_names)) ?></span></h6>
-							</li>
-							<li>
-								<a href="index.php?controller=products&action=edit&id=<?= $product['id'] ?>">modifier</a> 
-								<a href="index.php?controller=products&action=delete&id=<?= $product['id'] ?>">supprimer</a>
-							</li>
-						</section>
-						<?php endforeach; ?>
-					</ul>
-				</section>
+							<p class="h6">Catégorie(s) associée(s) <br><span class="fw-light"><?=  htmlspecialchars(implode(", ", $categories_names)) ?></span></p>
+							<p><a href="index.php?controller=products&action=edit&id=<?= $product['id'] ?>">modifier</a> </p>
+						</div>
+					<?php endforeach; ?>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </body>
-<?php require 'partials/js_assets.php'; ?>
 </html>
 

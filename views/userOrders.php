@@ -8,9 +8,9 @@
 			<?php require 'partials/attachment.php'; ?>
 			<section class="main">
 				<?php if(empty($orders)): ?>
-				<h4 class="mrl-1 align-center italic">Il semblerait que vous n'ayez passé aucune commande chez War&Hatred.</h4>
+				<h4 class="my-auto align-center italic">Il semblerait que vous n'ayez passé aucune commande.</h4>
 				<?php else: ?>
-				<div class="wrapper order">
+				<div class="order">
 					<div style="overflow-x:auto;">
 						<table class="table stripped hoverable mtb-1">
 							<thead>
@@ -29,7 +29,7 @@
 									<td><?= $order['id'] ?></td>
 									<td><?= $order['order_date'] ?></td>
 									<td><?= $order['user_address'] ?></td>
-									<td><?= $order['order_bill'] ?>€</td>
+									<td><?= $order['order_bill'] += $order['shipping_fees'] ?>€</td>
 								</tr>
 								<?php endforeach; ?>
 							</tbody>
@@ -41,5 +41,4 @@
 		</div>
 	</div>
 </body>
-<?php require 'partials/js.php'; ?>
 </html>

@@ -1,0 +1,81 @@
+@font-face {
+    font-family: 'Reservoir Grunge';
+    src: url('../../assets/fonts/ReservoirGrunge.woff2') format('woff2'),
+        url('../../assets/fonts/ReservoirGrunge.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+html {
+	overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
+}
+
+.img-logo {
+	height: auto;
+	width: 100px;
+}
+
+.reservoir {
+	font-family: 'Reservoir Grunge';
+	padding-top: 10px;
+}
+
+.auto-height {
+	height: 100vh;
+}
+
+.sticky {
+	position: sticky;
+	top: 0;
+	z-index: 1020
+}
+
+a:hover {
+	color: #FF2600!important;
+}
+
+.a:hover {
+	color: #FF2600!important;
+}
+
+.text-inherit:hover {
+	color: white!important;
+}
+
+.g-wrapper-6 {
+	grid-template-columns: repeat(6, 1fr);
+}
+
+.g-wrapper-3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.w-sm-auto {
+	width: auto!important;
+}
+
+@media (max-width: 1680px) {
+	.g-wrapper-6 {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+@media (max-width: 1024px) {
+	.w-sm-100, .w-sm-auto {
+		width: 100%!important;
+	}
+
+	.auto-height {
+		height: 100%;
+	}
+
+	.sticky {
+		position: static;
+	}
+
+	.g-wrapper-6, .g-wrapper-3 {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}

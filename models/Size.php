@@ -9,7 +9,7 @@ function getSize($id)
         $id
     ]);
 
-    $size = $query->fetch();
+    $size = $query->fetchObject()->size;
     
     return $size;
 }

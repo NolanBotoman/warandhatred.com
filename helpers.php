@@ -1,20 +1,36 @@
 <?php
 function dbConnect()
 {
-    try{
-        $db = new PDO('mysql:host=localhost;dbname=warhatred;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-    }
-    catch (Exception $exception)
-    {
-        die('Erreur : ' . $exception->getMessage());
-    }
+    return DB::getDatabaseInstance();
+}
 
-    return $db;
+class DB {
+    private static $instance = null;
+
+    public static function getDatabaseInstance() {
+        if (is_null(self::$instance)) {
+            try {
+               self::$instance = new PDO('mysql:host=;dbname=;charset=utf8', '', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            }
+            catch (Exception $exception)
+            {
+                die('Erreur : ' . $exception->getMessage());
+            }
+        }
+
+        return self::$instance;
+    }
+}
+
+function dd($array) {
+    if (empty($array)) die();
+    
+    die(var_dump($array));
 }
 
 function buildPanelMessage($message)
 {
-    return "<div class='alert alert-danger alert-dismissible fade show'>" . $message . "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+    return "<div class='alert rounded-0 border-0 alert-danger alert-dismissible fade show' role='alert'>" . $message . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
 }
 
 function buildAlert($message)
@@ -24,7 +40,22 @@ function buildAlert($message)
 
 function buildLinkAlert($message, $arg)
 {
-    return "<div class='alert'>" . $message . "<span class='close' onclick='this.parentElement.remove();'>&times;</span></div>"; 
+    switch ($arg) {
+        case "account_orders":
+            return "<div class='alert'>" . $message . "<a class='underline colorize' href=
+            'index.php?page=account&show=orders'>Click here to access your previous orders</a><span class='close' onclick='this.parentElement.remove();'>&times;</span></div>";
+            break;
+
+        case "login_signin":    
+            return "<div class='alert'>" . $message . "<a class='underline colorize' href=
+            'index.php?page=login&show=signin&from=lastref'>Click here to connect</a><span class='close' onclick='this.parentElement.remove();'>&times;</span></div>";
+            break;
+
+        default:
+            return "<div class='alert'>" . $message . "<span class='close' onclick='this.parentElement.remove();'>&times;</span></div>";
+            break;
+    }
+    
 }
 
 function checkEmailHost($email)

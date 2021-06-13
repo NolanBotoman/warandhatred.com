@@ -60,10 +60,10 @@ switch ($_GET['show']) {
 
 	case 'sign_up' :
 		if (!empty($_POST)) {
-				if (empty($_POST['firstname']) || empty($_POST['lastname']) || empty($_POST['email']) || empty($_POST['address']) || empty($_POST['c_password']) || empty($_POST['password'])) {
+				if (empty($_POST['firstname']) || empty($_POST['lastname']) || empty($_POST['email']) || !checkEmailHost($_POST['email']) || empty($_POST['address']) || empty($_POST['c_password']) || empty($_POST['password']) || empty($_POST['city'] || empty($_POST['country']) ) ) {
 
-					if (empty($_POST['email'])) {
-						$_SESSION['messages'][] = buildAlert("Please enter an email address.");
+					if (empty($_POST['email']) || !checkEmailHost($_POST['email'])) {
+						$_SESSION['messages'][] = buildAlert("Please enter a valid email address.");
 					}
 
 					if (empty($_POST['firstname'])) {
@@ -76,6 +76,14 @@ switch ($_GET['show']) {
 
 					if (empty($_POST['address'])) {
 						$_SESSION['messages'][] = buildAlert("Please enter an address.");
+					}
+
+					if (empty($_POST['city'])) {
+						$_SESSION['messages'][] = buildAlert("Please enter a city.");
+					}
+
+					if (empty($_POST['country'])) {
+						$_SESSION['messages'][] = buildAlert("Please enter a country.");
 					}
 
 					if (empty($_POST['password'])) {

@@ -35,6 +35,20 @@ function getOrder($id)
 	return $result;
 }
 
+function updateOrder($id, $informations)
+{
+	$db = dbConnect();
+
+	$query = $db->prepare('UPDATE orders SET status = ? WHERE id = ?');
+	
+	$result = $query->execute([
+		$informations['status'],
+		$id,
+	]);
+	
+	return $result;
+}
+
 function getOrderProducts($id)
 {
     $db = dbConnect();

@@ -1,0 +1,2 @@
+<script src="https://www.paypal.com/sdk/js?client-id=AUZffuSkK0FBHq2TUh5SvM2bi94h_mpSBSO13ObvWwiJpucp3eGbxI8NdFochVXg5_HL_P1JxOxm1HF2&currency=EUR&disable-funding=card" data-sdk-integration-source="button-factory"></script>
+<script src="assets/js/paypal.js"></script>

@@ -7,11 +7,7 @@
 		<div class="row">
 			<?php require 'partials/attachment.php'; ?>
 			<section class="main">
-				<?php if(isset($_SESSION['messages'])): ?>
-					<?php foreach($_SESSION['messages'] as $message): ?>
-						<?= $message ?>
-					<?php endforeach; ?>
-				<?php endif; ?>
+				<?php require 'partials/alert.php'; ?>
 				<form class="form" action="index.php?page=login&show=sign_in" method="post" enctype="multipart/form-data">
 					<div class="group mtb-1">
 						<label for="email"><h5 class="italic">EMAIL</h5></label>
@@ -28,5 +24,4 @@
 		</div>
 	</div>
 </body>
-<?php require 'partials/js.php'; ?>
 </html>

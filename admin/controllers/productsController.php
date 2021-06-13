@@ -14,7 +14,7 @@ switch ($_GET['action']) {
 
 		$products_sizes = getAllProductsSizes();
 		$sizes = getAllSizes();
-
+		
 		require('views/productsList.php');
 		break;
 
@@ -64,8 +64,8 @@ switch ($_GET['action']) {
 		} else {
 
 			foreach ($_FILES['images']['size'] as $size) {
-				if ($size > 524288) {
-		 			$_SESSION['messages'][] = buildPanelMessage("Vous ne pouvez pas télécharger des images dépassant 500 Ko.");
+				if ($size > 3145728) {
+		 			$_SESSION['messages'][] = buildPanelMessage("Vous ne pouvez pas télécharger des images dépassant 3 Mo.");
 					$_SESSION['old_inputs'] = $_POST;
 					header('Location:index.php?controller=products&action=new');
 					exit;
@@ -75,8 +75,8 @@ switch ($_GET['action']) {
 			foreach (array_keys($_POST['categories_id'], null) as $key) unset($_POST['categories_id'][$key]);
 			foreach (array_keys($_POST['sizes_id'], null) as $key) unset($_POST['sizes_id'][$key]);
 
-			$_POST['is_hidden'] = (empty($_POST['is_hidden'])) ? null : 1;
-			$_POST['is_archived'] = (empty($_POST['is_archived'])) ? null : 1;
+			$_POST['is_hidden'] = (empty($_POST['is_hidden'])) ? 0 : 1;
+			$_POST['is_archived'] = (empty($_POST['is_archived'])) ? 0 : 1;
 
 			$resultAdd = addProduct($_POST);
 			
@@ -106,7 +106,7 @@ switch ($_GET['action']) {
 				}
 
 				if (empty($_POST['sizes_id'])) {
-					$_SESSION['messages'][] = buildPanelMessage("Le champ taille est obligatoire !");
+					$_SESSION['messages'][] = buildPanelMessage("Vous devez sélectionner au moins une taille !");
 				}
 
 
@@ -121,8 +121,8 @@ switch ($_GET['action']) {
 			} else {
 
 				foreach ($_FILES['images']['size'] as $size) {
-					if ($size > 524288) {
-			 			$_SESSION['messages'][] = buildPanelMessage("Vous ne pouvez pas télécharger des images dépassant 500 Ko.");
+					if ($size > 3145728) {
+			 			$_SESSION['messages'][] = buildPanelMessage("Vous ne pouvez pas télécharger des images dépassant 3 Mo.");
 						$_SESSION['old_inputs'] = $_POST;
 						header('Location:index.php?controller=products&action=edit&id=' . $_GET['id']);
 						exit;
@@ -134,9 +134,8 @@ switch ($_GET['action']) {
 
 				if ($_POST['categories_id'] == "") $_POST['categories_id'] = null;
 
-				$_POST['is_hidden'] = (empty($_POST['is_hidden'])) ? null : 1;
-
-				$_POST['is_archived'] = (empty($_POST['is_archived'])) ? null : 1;
+				$_POST['is_hidden'] = (empty($_POST['is_hidden'])) ? 0 : 1;
+				$_POST['is_archived'] = (empty($_POST['is_archived'])) ? 0 : 1;
 
 				$result = updateProduct($_GET['id'], $_POST);
 				$_SESSION['messages'][] = $result ? buildPanelMessage("Produit mis à jour !") : buildPanelMessage("Erreur lors de la mise à jour du produit.");
@@ -175,7 +174,7 @@ switch ($_GET['action']) {
 		break;
 
 	case 'delete' :
-		if(isset($_GET['id'])){
+		if (isset($_GET['id'])){
 
 			$result = deleteProduct($_GET['id']);
 

@@ -4,7 +4,7 @@ function getAllUsers()
 {
     $db = dbConnect();
 
-    $query = $db->query('SELECT * FROM users');
+    $query = $db->query('SELECT * FROM users ORDER BY id DESC');
 	$users =  $query->fetchAll();
 
     return $users;
@@ -28,12 +28,14 @@ function updateUser($id, $informations)
 {
 	$db = dbConnect();
 
-	$queryString = 'UPDATE users SET firstname = :firstname, lastname = :lastname,' . (!empty($informations['password'])? 'password = :password,': '') . 'address = :address, email = :email, is_admin = :is_admin WHERE id = :id';
+	$queryString = 'UPDATE users SET firstname = :firstname, lastname = :lastname,' . (!empty($informations['password'])? 'password = :password,': '') . 'address = :address, city = :city, country = :country, email = :email, is_admin = :is_admin WHERE id = :id';
 
     $queryArray = [
         'firstname' => $informations['firstname'],
         'lastname' => $informations['lastname'],
         'address' => $informations['address'],
+        'country' => strtoupper($informations['country']),
+        'city' => $informations['city'],
         'email' => $informations['email'],
         'is_admin' => $informations['is_admin'],
 		'id' => $id
@@ -53,7 +55,7 @@ function addUser($informations)
 {
 	$db = dbConnect();
 
-	$query = $db->prepare("INSERT INTO users (firstname, lastname, email, password, address, is_admin) VALUES( :firstname, :lastname :email, :password, :address, :is_admin)");
+	$query = $db->prepare("INSERT INTO users (firstname, lastname, email, password, address, country, is_admin) VALUES( :firstname, :lastname :email, :password, :address, :country, :is_admin)");
 
 	$result = $query->execute([
 		'firstname' => $informations['firstname'],
@@ -61,6 +63,7 @@ function addUser($informations)
 		'email' => $informations['email'],
 		'password' => encryptSecret($informations['password']),
 		'address' => $informations['address'],
+		'country' => strtoupper($informations['country']),
 		'is_admin' => $informations['is_admin'],
 	]);
 	

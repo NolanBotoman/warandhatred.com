@@ -1,4 +1,3 @@
-
 <?php
 
 function getAllOrders()
@@ -6,7 +5,7 @@ function getAllOrders()
     $db = dbConnect();
 
     $query = $db->query('SELECT * FROM orders ORDER BY id DESC');
-	$orders =  $query->fetchAll();
+	$orders = $query->fetchAll();
 
     return $orders;
 }
@@ -77,23 +76,24 @@ function getOrderUser($id)
 	return $result;
 }
 
-function addOrder($cart, $user_id, $bill)
+function addOrder($cart, $user_id, $bill, $shipping_fees)
 {	
 	$user = getOrderUser($user_id);
     $db = dbConnect();
 
     $result = array();
 
-    $query = $db->prepare("INSERT INTO orders (order_date, order_bill, user_id, user_firstname, user_lastname, user_email, user_address) VALUES( :order_date, :order_bill, :user_id, :user_firstname, :user_lastname, :user_email, :user_address)");
+    $query = $db->prepare("INSERT INTO orders (order_date, order_bill, shipping_fees, user_id, user_firstname, user_lastname, user_email, user_address) VALUES( :order_date, :order_bill, :shipping_fees, :user_id, :user_firstname, :user_lastname, :user_email, :user_address)");
 
 	$result['answer'] = $query->execute([
 		'order_date' => date('Y-m-d H:i:s'),
 		'order_bill' => $bill,
+		'shipping_fees' => $shipping_fees,
 		'user_id' => $user['id'],
 		'user_firstname' => $user['firstname'],
 		'user_lastname' => $user['lastname'],
 		'user_email' => $user['email'],
-		'user_address' => $user['address'],
+		'user_address' => 	$user['address'] . ", " . $user['city'] . ", " . $user['country']
 	]);
 
 	if ($result['answer']) {

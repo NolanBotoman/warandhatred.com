@@ -7,29 +7,24 @@
 		<div class="row">
 			<?php require 'partials/attachment_checkout.php'; ?>
 			<section class="main">
-				<?php if(isset($_SESSION['messages'])): ?>
-					<?php foreach($_SESSION['messages'] as $message): ?>
-						<?= $message ?>
-					<?php endforeach; ?>
-				<?php endif; ?>
-				<form class="form" method="post">
-				    <div id="errors"></div>
-				    <div class="group mtb-1">
-				    	<input class="control mt-1" id="cardholder-name" type="text" placeholder="Card Owner">
+				<?php require 'partials/alert.php'; ?>
+				<div class="wrap my-auto">
+					<div class="view">
+						<h1 class="flex-title reservoir"><div>WAR</div><div>&HATRED</div></h1>
+						<p class="mtb-1">Pour valider votre commande veuillez cliquer et suivre les instructions de paiement sur l'intégration Paypal. N'hésitez pas à nous contacter en cas de question.</p>
+						<div class="table format bg-white p-1">
+							<div id="paypal-checkout"></div>
+							<p class="ml-1">Nos paiements sont sécurisés et effectués via Paypal, pour plus d'informations concernant leur politique de protection des données <a class="colorize underline" href="https://www.paypal.com/fr/webapps/mpp/ua/privacy-full" target="_blank">cliquez ici</a>.</p>
+						</div>
+						<form id="orderHandler" method="post" action="/index.php?page=checkout&show=processed">
+							<input id="order" type="hidden" name="order" value="<?= $ordertotal ?>">
+							<input id="status" type="hidden" name="status">
+						</form>
 					</div>
-					<div class="group mtb-1">
-				   	 	<div class="control mt-1" id="card-element"></div>
-					</div>
-				    <button class="btn btn-large" id="card-button" type="button" data-secret="<?= $intent['client_secret'] ?>">Proceed Checkout</button>
-				    <p class="italic muted">Nos paiements sont sécurisés et effectués via Stripe, pour plus d'informations concernant la politique de protection des données <a class="colorize underline" href="https://stripe.com/docs/security/stripe" target="_blank">cliquez ici</a></p>
-				</form>			
-				<form action="index.php?page=checkout&show=checkout" method="post" id="submit">
-					<input id="result" name="result" value="" />
-				</form>
+				</div>
 			</section>
 		</div>
 	</div>
 </body>
-<script src="https://js.stripe.com/v3/"></script>
-<script src="assets/js/stripe_internal.js"></script>
+<?php require 'partials/paypal.php'; ?>
 </html>

@@ -9,6 +9,6 @@ function getAttachmentLinks($page)
 		
 		array_push($links, strtolower($parts[0]));
 	} 
-
+	
     return $links;
 }

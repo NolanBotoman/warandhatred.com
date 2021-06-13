@@ -5,6 +5,7 @@
 	<div class="container">
 		<?php require 'partials/navigation.php'; ?>
 		<div class="row">
+			<?php require 'partials/alert.php'; ?>
 			<section class="shop-bg fishing-net" onclick="window.location='index.php?page=shop&show=all';">
 				<button class="highlight"><a href="index.php?page=shop&show=all"><h1 class="reservoir">SHOP</h1></a></button>
 			</section>

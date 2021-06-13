@@ -4,8 +4,23 @@ function getAllProducts()
 {
     $db = dbConnect();
 
-    $query = $db->query("SELECT * FROM products WHERE is_hidden IS NULL AND is_archived IS NULL");
+    $query = $db->query("SELECT * FROM products WHERE is_hidden = 0");
     $products =  $query->fetchAll();
+
+    $products = addProductsImages($products);
+
+    return $products;
+}
+
+function getAllBuyableProducts()
+{
+    $db = dbConnect();
+
+    $query = $db->query("SELECT id FROM categories WHERE is_buyable = 1");
+    $categories_id = $query->fetchAll();
+
+    $query = $db->query("SELECT * FROM products INNER JOIN product_categories ON product_categories.category_id WHERE products.is_hidden = 0 AND product_categories.category_id IN ($categories_id)");
+    $products = $query->fetchAll();
 
     $products = addProductsImages($products);
 
@@ -16,7 +31,7 @@ function getAllArchived()
 {
     $db = dbConnect();
 
-    $query = $db->query("SELECT * FROM products WHERE is_archived = 1");
+    $query = $db->query("SELECT * FROM products WHERE is_archived = 1 ORDER BY id DESC");
     $products =  $query->fetchAll();
 
     $products = addProductsImages($products);
@@ -75,7 +90,7 @@ function getProduct($id)
 {
     $db = dbConnect();
 
-    $query = $db->prepare("SELECT * FROM products WHERE id = ? AND is_hidden IS NULL AND is_archived IS NULL");
+    $query = $db->prepare("SELECT * FROM products WHERE id = ? AND is_hidden = 0");
     $query->execute([
         $id
     ]);

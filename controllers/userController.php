@@ -3,6 +3,7 @@
 require('models/Link.php');
 require('models/User.php');
 require('models/Order.php');
+require('models/Size.php');
 
 $links = getAttachmentLinks($_GET['page']);
 $page = $_GET['page'];
@@ -44,37 +45,32 @@ switch ($_GET['show']) {
 		header ("Location: $_SERVER[HTTP_REFERER]" );
 		exit;
 
-	default:
+	case 'account':
 		if (!empty($_POST)) {
 
-			if (empty($_POST['email']) || empty($_POST['address'])) {
+			if (empty($_POST['email']) || $_POST['password'] != $_POST['c_password'] || !checkEmailHost($_POST['email']) || isset($_POST['address']) && $_POST['address'] == trim($_POST['address']) && strpos($_POST['address'], ' ') == false) {
+
+				if ($_POST['address'] == trim($_POST['address']) && strpos($_POST['address'], ' ') == false) {
+					$_SESSION['messages'][] = buildAlert("Please enter a valid address.");
+				}
+
+				if ($_POST['password'] != $_POST['c_password']) {
+					$_SESSION['messages'][] = buildAlert("Entered passwords do not match.");
+				}
+
+				if (!checkEmailHost($_POST['email'])) {
+					$_SESSION['messages'][] = buildAlert("Please enter an existing email address.");
+				}
 
 				if (empty($_POST['email'])) {
 					$_SESSION['messages'][] = buildAlert("Please enter a valid email address.");
 				}
-
-				if (empty($_POST['address'])) {
-					$_SESSION['messages'][] = buildAlert("Please enter a valid address.");
-				}
 				
-				$_SESSION['old_inputs'] = $_POST;
-				header('Location:index.php?page=user&show=account');
-				exit;
-
-			} else if ($_POST['password'] != $_POST['c_password']) {
-
-				$_SESSION['messages'][] = buildAlert("Entered passwords do not match.");
-				
-				$_SESSION['old_inputs'] = $_POST;
-				header('Location:index.php?page=login&show=sign_up');
-				exit;
-
-			} else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || !checkEmailHost($_POST['email'])) {
-
 				$_SESSION['messages'][] = buildAlert("Please enter an existing email address.");
 				
 				$_SESSION['old_inputs'] = $_POST;
-				header('Location:index.php?page=login&show=sign_up');
+
+				header('Location:index.php?page=user&show=account');
 				exit;
 
 			} else {
@@ -90,5 +86,9 @@ switch ($_GET['show']) {
 			require('views/userAccount.php');
 		}
 		break;
+
+	default:
+		header('Location:index.php?page=user&show=account');
+		exit;
 
 }

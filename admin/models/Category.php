@@ -28,12 +28,13 @@ function updateCategory($id, $informations)
 {
 	$db = dbConnect();
 	
-	$query = $db->prepare('UPDATE categories SET name = ? WHERE id = ?');
+	$query = $db->prepare('UPDATE categories SET name = :name, is_buyable = :is_buyable WHERE id = :id');
 	
 	$result = $query->execute([
-		$informations['name'],
-		$id
-	]);
+		'name' => $informations['name'],
+        'is_buyable' => $informations['is_buyable'],
+		'id' => $id
+    ]);
 	
 	return $result;
 }
@@ -42,10 +43,11 @@ function addCategory($informations)
 {
 	$db = dbConnect();
 	
-	$query = $db->prepare("INSERT INTO categories (name) VALUES( :name )");
+	$query = $db->prepare("INSERT INTO categories (name, is_buyable) VALUES( :name, :is_buyable )");
 
 	$result = $query->execute([
 		'name' => $informations['name'],
+		'is_buyable' => $informations['is_buyable']
 	]);
 
 	return $result;

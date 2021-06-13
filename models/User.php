@@ -32,7 +32,7 @@ function createUser($informations)
 {
 	$db = dbConnect();
 
-	$query = $db->prepare("INSERT INTO users (email, firstname, lastname, password, address) VALUES( :email, :firstname, :lastname, :password, :address)");
+	$query = $db->prepare("INSERT INTO users (email, firstname, lastname, password, address, city, country) VALUES( :email, :firstname, :lastname, :password, :address, :city, :country )");
 
 	$result = $query->execute([
 		'email' => $informations['email'],
@@ -40,6 +40,8 @@ function createUser($informations)
 		'lastname' => $informations['lastname'],
 		'password' => encryptSecret($informations['password']),
 		'address' => $informations['address'],
+		'city' => $informations['city'],
+		'country' => strtoupper($informations['country']),
 	]);
 	
 	return $result;
@@ -51,13 +53,15 @@ function updateUser($id, $informations)
 
 		$db = dbConnect();
 
-	$queryString = 'UPDATE users SET firstname = :firstname, lastname = :lastname,' . (!empty($informations['password'])? 'password = :password,': '') . 'address = :address, email = :email WHERE id = :id';
+	$queryString = 'UPDATE users SET firstname = :firstname, lastname = :lastname,' . (!empty($informations['password'])? 'password = :password,': '') . 'address = :address, email = :email, city = :city, country = :country WHERE id = :id';
 
     $queryArray = [
         'firstname' => $informations['firstname'],
         'lastname' => $informations['lastname'],
         'address' => $informations['address'],
         'email' => $informations['email'],
+        'city' => $informations['city'],
+        'country' => strtoupper($informations['country']),
 		'id' => $id
     ];
 
@@ -67,8 +71,14 @@ function updateUser($id, $informations)
 
     $query = $db->prepare($queryString);
 	$result = $query->execute($queryArray);
-	
-	return $result;
-	
-	return $result;
+
+	return $result;	
+}
+
+function checkValidAddress($user) {
+	if ($user['country'] == "" || $user['city'] == "" || $user['address'] == "" || ($user['address'] == trim($user['address']) && strpos($user['address'], ' ') == false)) {
+		return true;
+	} else {
+		return false;
+	}
 }

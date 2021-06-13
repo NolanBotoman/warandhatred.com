@@ -1,61 +1,74 @@
 <!DOCTYPE html>
-<?php require 'partials/head_assets.php'; ?>
-<body class="index-body">
-	<div class="container-fluid">
-		<div class="row">
-			<?php require ('partials/navigation.php'); ?>
-			<div class="col-9 py-3">
-				<?php if(isset($_SESSION['messages'])): ?>
-					<?php foreach($_SESSION['messages'] as $message): ?>
-						<?= $message ?><br>
-					<?php endforeach; ?>
-				<?php endif; ?>
+<html>
+<?php require 'partials/head.php'; ?>
+<body>
+	<div class="container-fluid p-0">
+		<div class="row gx-0">
+			<?php require 'partials/navigation.php'; ?>
+			<div class="col-lg-9">
+				<?php require 'partials/alert.php'; ?>
+				<div class="p-4">
+					<form action="index.php?controller=orders&action=edit&id=<?= $order['id'] ?>" method="post" enctype="multipart/form-data">
+						<h3 class="mb-4">Commande n°<?= $order['id'] ?></h3>
+						<div class="mb-4">
+							<h5 class="mb-3">Utilisateur</h5>
+							<p class="h6"><kbd>Email</kbd></p>
+							<p class="h6"><?= htmlspecialchars($order['user_email']) ?>
+							<p class="h6"><kbd>Adresse de livraison</kbd></p>
+							<p class="h6"><?= htmlspecialchars($order['user_address']) ?></p>
+							<p class="h6"><kbd>Commandé le</kbd></p>
+							<p class="h6"><?= htmlspecialchars($order['order_date']) ?></p>
+						</div>
+						<div class="mb-4">
+							<label class="h5 mb-3" for="status">Statut</label>
+							<select class="form-control" name="status" id="status">
+								<?php foreach($all_status as $status): ?>
+									<option value="<?= $status; ?>" <?= ($order['status'] == $status) ? "selected" : "" ?>><?= $status; ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class="mb-4">
+							<h5 class="mb-3">Récapitulatif</h5>
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<td>Nom</td>
+										<td>Quantité</td>
+										<td>Taille</td>
+										<td>Prix Unitaire</td>
+										<td>Total</td>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
 
-				<section class="ml-2">
-					<h3>Commande complète n°<?= $order['id'] ?></h3>
-					<br>
-					<h5>Informations utilisateur :</h5>
-					<ul>
-						<li><h6>Email utilisé lors de la commande : <span class="font-italic"><?= htmlspecialchars($order['user_email']) ?></span></h6></li>
-						<li><h6>Adresse de livraison : <span class="font-italic"><?= htmlspecialchars($order['user_address']) ?></span></h6></li>
-					</ul>
-					<br>
-					<h5>Récapitulatif commande :</h5>
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<td>Nom</td>
-								<td>Quantité</td>
-								<td>Prix Unitaire</td>
-								<td>Total</td>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
+									$total = 0;
+									foreach($order_products as $order_product): 
+									$total += ($order_product['amount'] * $order_product['price']);
 
-							$total = 0;
-							foreach($order_products as $order_product): 
-							$total += ($order_product['amount'] * $order_product['price']);
-
-							?>
-							<tr>
-								<td><?= $order_product['name'] ?></td>
-								<td><?= $order_product['amount'] ?></td>
-								<td><?= $order_product['price'] ?>€</td>
-								<td><?= ($order_product['amount'] * $order_product['price']) ?>€</td>
-							</tr>
-							<?php endforeach; ?>
-						</tbody>
-						<caption>
-							Total de la commande (HT & sans frais de livraison) : <?= $total ?>€
-						</caption>
-					</table>
-						<h5 class="muted">Total TTC : <?= $order['order_bill'] ?>€</h5>
-				</section>
+									?>
+									<tr>
+										<td><?= $order_product['name'] ?></td>
+										<td><?= $order_product['amount'] ?></td>
+										<td><?= getSize($order_product['size']) ?></td>
+										<td><?= $order_product['price'] ?>€</td>
+										<td><?= ($order_product['amount'] * $order_product['price']) ?>€</td>
+									</tr>
+									<?php endforeach; ?>
+								</tbody>
+							</table>
+							<h5 class="muted mt-4">Frais de livraison : <span class="fw-light"><?= ($order['shipping_fees'] == 0) ? 'Aucuns' : $order['shipping_fees'] . '€' ?></span></h5>
+							<h5 class="muted mb-3">Total (Livraison non comprise) : <span class="fw-light"><?= $order['order_bill'] ?>€</span></h5>
+							<input class="btn btn-outline-dark" type="submit" value="Enregistrer" />
+							<a class="text-white text-decoration-none ms-2" href="index.php?controller=orders&action=list">
+								<button class="btn btn-dark" type="button">Retour</button>
+							</a>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
 </body>
-<?php require 'partials/js_assets.php'; ?>
 </html>
 

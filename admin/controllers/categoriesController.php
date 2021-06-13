@@ -23,6 +23,8 @@ switch ($_GET['action']) {
 			exit;
 
 		} else {
+			$_POST['is_buyable'] = (empty($_POST['is_buyable'])) ? 0 : 1;
+
 			$resultAdd = addCategory($_POST);
 			
 			$_SESSION['messages'][] = $resultAdd ? buildPanelMessage("Catégorie enregistrée !") : buildPanelMessage("Erreur lors de la création de la catégorie.");
@@ -43,7 +45,10 @@ switch ($_GET['action']) {
 				exit;
 
 			} else {
+				$_POST['is_buyable'] = (empty($_POST['is_buyable'])) ? 0 : 1;
+
 				$result = updateCategory($_GET['id'], $_POST);
+				
 				$_SESSION['messages'][] = $result ? buildPanelMessage("Catégorie mise à jour !") : buildPanelMessage("Erreur lors de la mise à jour de la catégorie.");
 				header('Location:index.php?controller=categories&action=list');
 				exit;

@@ -14,7 +14,7 @@ switch ($_GET['action']) {
 		break;
 
 	case 'add' :
-		if (empty($_POST['firstname']) || empty($_POST['lastname']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['address'])) {
+		if (empty($_POST['firstname']) || empty($_POST['lastname']) || empty($_POST['email']) || empty($_POST['password'])) {
 
 			if (empty($_POST['firstname'])) {
 				$_SESSION['messages'][] = buildPanelMessage("Le champ prénom est obligatoire !");
@@ -30,10 +30,6 @@ switch ($_GET['action']) {
 
 			if (empty($_POST['password'])) {
 				$_SESSION['messages'][] = buildPanelMessage("Le champ mot de passe est obligatoire !");
-			}
-
-			if (empty($_POST['address'])) {
-				$_SESSION['messages'][] = buildPanelMessage("Le champ addresse est obligatoire !");
 			}
 			
 			$_SESSION['old_inputs'] = $_POST;
@@ -54,14 +50,10 @@ switch ($_GET['action']) {
 	case 'edit' :
 		if (!empty($_POST)) {
 
-			if (empty($_POST['email']) || empty($_POST['address'])) {
+			if (empty($_POST['email'])) {
 
 				if (empty($_POST['email'])) {
 					$_SESSION['messages'][] = buildPanelMessage("Le champ email est obligatoire !");
-				}
-
-				if (empty($_POST['address'])) {
-					$_SESSION['messages'][] = buildPanelMessage("Le champ adresse est obligatoire !");
 				}
 				
 				$_SESSION['old_inputs'] = $_POST;
@@ -87,7 +79,6 @@ switch ($_GET['action']) {
 					$user = getUser($_GET['id']);
 
 					if ($user == false) {
-
 						header('Location:index.php?controller=users&action=list');
 						exit;
 					}
@@ -97,6 +88,7 @@ switch ($_GET['action']) {
 					exit;
 				}
 			}
+			
 			require('views/usersForm.php');
 		}
 		break;
@@ -115,6 +107,29 @@ switch ($_GET['action']) {
 		
 		header('Location:index.php?controller=users&action=list');
 		exit;
+
+	case 'takeover' :
+		if(!empty($_POST)){
+
+			$user = getUser($_POST['id']);
+
+			if ($user == false) {
+				header('Location:index.php?controller=users&action=list');
+				exit;
+			}
+
+			unset($_SESSION['user']);
+
+			$_SESSION['user']['id'] = $user['id'];
+			if ($user['is_admin']) $_SESSION['user']['admin'] = 1;
+
+			header('Location:/');
+			exit;
+
+		} else {
+			header('Location:index.php?controller=users&action=list');
+			exit;
+		}
 
 	default:
 		header('Location:index.php?controller=users&action=list');

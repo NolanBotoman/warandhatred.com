@@ -20,7 +20,7 @@ switch ($_GET['show']) {
 
 				for ($i = 0; ; $i++) {
 
-					if ($_SESSION['cart'][$i]['amount'] >= $product['amount']) {
+					if ($_SESSION['cart']['products'][$i]['amount'] >= $product['amount']) {
 						
 						$_SESSION['messages'][] = buildAlert("This product is no longer available for shipping (out of stock).");
 
@@ -29,23 +29,23 @@ switch ($_GET['show']) {
 
 					}
 
-					if ($_GET['id'] == $_SESSION['cart'][$i]['id'] && $_SESSION['cart'][$i]['size'] == $_POST['size']) {
+					if ($_GET['id'] == $_SESSION['cart']['products'][$i]['id'] && $_SESSION['cart']['products'][$i]['size'] == $_POST['size']) {
 
-						$_SESSION['cart'][$i]['amount'] += 1;
+						$_SESSION['cart']['products'][$i]['amount'] += 1;
 
 						$_SESSION['messages'][] = buildAlert("You successfully added this product to your cart.");
 
 						header('Location:index.php?page=shop&show=view&id=' . $_GET['id']);
 						exit;
 
-					} else if ($i >= count($_SESSION['cart']) && $_SESSION['cart'][$i][$_GET['id']] == null) {
+					} else if ($i >= count($_SESSION['cart']) && $_SESSION['cart']['products'][$i][$_GET['id']] == null) {
 
 						$new_product = array();
 						$new_product['amount'] = 1;
 						$new_product['size'] = $_POST['size'];
 						$new_product['id'] = $_GET['id'];
 
-						array_push($_SESSION['cart'], $new_product);
+						array_push($_SESSION['cart']['products'], $new_product);
 						$_SESSION['messages'][] = buildAlert("You successfully added this product to your cart.");
 
 						header('Location:index.php?page=shop&show=view&id=' . $_GET['id']);
@@ -59,7 +59,7 @@ switch ($_GET['show']) {
 
 			} 
 
-			$_SESSION['messages'][] = buildAlert("This product is no longer available for shipping (out of stock).");
+			$_SESSION['messages'][] = buildAlert("This product ran out of stock and is no longer available for sale.");
 
 			header('Location:index.php?page=shop&show=view&id=' . $_GET['id']);
 			exit;
@@ -86,7 +86,7 @@ switch ($_GET['show']) {
 
 	case 'all' :
 		$products = getAllProducts();
-
+		
 		require('views/shopCategories.php');
 		break;
 

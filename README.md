@@ -1,2 +1,0 @@
-# warandhatred.com
-WARANDHATRED.COM

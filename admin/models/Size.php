@@ -14,12 +14,12 @@ function getSize($id)
 {
 	$db = dbConnect();
 	
-	$query = $db->prepare("SELECT * FROM sizes WHERE id = ?");
+	$query = $db->prepare("SELECT size FROM sizes WHERE id = ?");
 	$query->execute([
 		$id
 	]);
 	
-	$result = $query->fetch();
+	$result = $query->fetchObject()->size;
 	
 	return $result;
 }
